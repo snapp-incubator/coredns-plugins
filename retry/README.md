@@ -74,7 +74,7 @@ Sends parallel requests between three resolvers, one of which has a IPv6 address
 ```
 . {
     forward . 8.8.8.8
-    fanout . 192.168.1.1:54 192.168.1.1:55 {
+    retry . 192.168.1.1:54 192.168.1.1:55 {
         network TCP
     }
 }
