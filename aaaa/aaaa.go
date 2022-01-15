@@ -8,7 +8,7 @@ import (
 	"github.com/miekg/dns"
 )
 
-// AAAA is a plugin that returns a HINFO reply to AAAA queries.
+// AAAA is a plugin that returns a NXDOMAIN reply to AAAA queries.
 type AAAA struct {
 	Next plugin.Handler
 }
@@ -21,7 +21,7 @@ func (a AAAA) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (i
 
 	m := new(dns.Msg)
 	m.SetReply(r)
-	// send NXDOMAIN for AAAA record type
+	// set NXDOMAIN for AAAA record type
 	m.Rcode = 3
 	w.WriteMsg(m)
 	return 0, nil
