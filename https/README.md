@@ -1,5 +1,7 @@
 # https
 
+(from https://github.com/v-byte-cpu/coredns/tree/https_plugin/plugin/https)
+
 ## Name
 
 *https* - facilitates proxying DNS messages to upstream resolvers using DoH.
