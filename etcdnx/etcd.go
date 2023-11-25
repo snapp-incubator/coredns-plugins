@@ -87,21 +87,12 @@ func (e *Etcd) get(ctx context.Context, path string, recursive bool) (*etcdcv3.G
 		if !strings.HasSuffix(path, "/") {
 			path = path + "/"
 		}
-		r, err := e.Client.Get(ctx, path, etcdcv3.WithPrefix())
+		r, err := e.Client.Get(ctx, path, etcdcv3.WithPrefix(), etcdcv3.WithLimit(1))
 		if err != nil {
 			return nil, err
 		}
 		if r.Count == 0 {
-			path = strings.TrimSuffix(path, "/")
-			r, err = e.Client.Get(ctx, path)
-			if err != nil {
-				return nil, err
-			}
-			if r.Count == 0 {
-				return nil, errKeyNotFound
-			}
-		}
-		return r, nil
+		return r, errKeyNotFound
 	}
 
 	r, err := e.Client.Get(ctx, path)

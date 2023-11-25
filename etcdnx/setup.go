@@ -12,12 +12,12 @@ import (
 	etcdcv3 "go.etcd.io/etcd/client/v3"
 )
 
-func init() { plugin.Register("etcd", setup) }
+func init() { plugin.Register("etcdnx", setup) }
 
 func setup(c *caddy.Controller) error {
 	e, err := etcdParse(c)
 	if err != nil {
-		return plugin.Error("etcd", err)
+		return plugin.Error("etcdnx", err)
 	}
 
 	dnsserver.GetConfig(c).AddPlugin(func(next plugin.Handler) plugin.Handler {

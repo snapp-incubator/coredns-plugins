@@ -1,6 +1,8 @@
-# etcd
+# etcdnx
 
 ## Name
+
+*etcdnx* - [etcd plugin](https://github.com/coredns/coredns/tree/master/plugin/etcd) with 1 level recurse.
 
 *etcd* - enables SkyDNS service discovery from etcd.
 
@@ -31,7 +33,7 @@ specified the block's zone will be used as the zone.
 
 
 ~~~
-etcd [ZONES...] {
+etcdnx [ZONES...] {
     fallthrough [ZONES...]
     path PATH
     endpoint ENDPOINT...
