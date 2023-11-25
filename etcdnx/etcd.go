@@ -92,7 +92,8 @@ func (e *Etcd) get(ctx context.Context, path string, recursive bool) (*etcdcv3.G
 			return nil, err
 		}
 		if r.Count == 0 {
-		return r, errKeyNotFound
+			return r, errKeyNotFound
+		}
 	}
 
 	r, err := e.Client.Get(ctx, path)
