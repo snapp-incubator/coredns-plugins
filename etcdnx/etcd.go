@@ -87,13 +87,25 @@ func (e *Etcd) get(ctx context.Context, path string, recursive bool) (*etcdcv3.G
 		if !strings.HasSuffix(path, "/") {
 			path = path + "/"
 		}
-		r, err := e.Client.Get(ctx, path, etcdcv3.WithPrefix(), etcdcv3.WithLimit(1))
+		r, err := e.Client.Get(ctx, path, etcdcv3.WithPrefix())
 		if err != nil {
 			return nil, err
 		}
 		if r.Count == 0 {
 			return r, errKeyNotFound
 		}
+		// Create a new slice for filtered key-value pairs
+		var filteredKVs []*mvccpb.KeyValue
+
+		// Filter and add keys with only one level of directory to the new slice
+		for _, kv := range r.Kvs {
+			key := string(kv.Key)
+			if strings.Count(key[len(path):], "/") == 0 {
+				filteredKVs = append(filteredKVs, kv)
+			}
+		}
+		r.Kvs = filteredKVs
+		return r, nil
 	}
 
 	r, err := e.Client.Get(ctx, path)
