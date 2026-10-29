@@ -72,7 +72,11 @@ func parseConfig(c *caddy.Controller) (*httpsConfig, error) {
 	if !c.Args(&conf.from) {
 		return conf, c.ArgErr()
 	}
-	conf.from = plugin.Host(conf.from).Normalize()
+	zones := plugin.Host(conf.from).NormalizeExact()
+	if len(zones) == 0 {
+		return conf, fmt.Errorf("unable to normalize '%s'", conf.from)
+	}
+	conf.from = zones[0]
 
 	toURLs := c.RemainingArgs()
 	if len(toURLs) == 0 {
@@ -128,10 +132,9 @@ func parseExcept(c *caddy.Controller, conf *httpsConfig) error {
 	if len(except) == 0 {
 		return c.ArgErr()
 	}
-	for i := 0; i < len(except); i++ {
-		except[i] = plugin.Host(except[i]).Normalize()
+	for _, e := range except {
+		conf.except = append(conf.except, plugin.Host(e).NormalizeExact()...)
 	}
-	conf.except = except
 	return nil
 }
 

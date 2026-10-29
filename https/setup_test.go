@@ -55,7 +55,7 @@ func TestParseConfig(t *testing.T) {
 			expectedConfig: &httpsConfig{
 				from:      ".",
 				toURLs:    []string{"https://example.com/dns-query"},
-				tlsConfig: &tls.Config{},
+				tlsConfig: &tls.Config{MinVersion: tls.VersionTLS12},
 			},
 		},
 		{

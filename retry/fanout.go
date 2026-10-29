@@ -7,14 +7,14 @@ import (
 	"github.com/coredns/caddy"
 	"github.com/coredns/coredns/plugin/pkg/parse"
 	"github.com/coredns/coredns/plugin/pkg/transport"
+	"github.com/networkservicemesh/fanout"
 	"github.com/pkg/errors"
-	"github.com/snapp-incubator/fanout"
 )
 
 func initFanout(c *caddy.Controller) (*fanout.Fanout, error) {
 	f := fanout.New()
 	from := "."
-	f.AddFrom(from)
+	f.From = from
 
 	if !c.Args(&from) {
 		return f, c.ArgErr()
